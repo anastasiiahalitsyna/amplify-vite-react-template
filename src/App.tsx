@@ -15,7 +15,17 @@ function App() {
 
   function createTodo() {
     client.models.Todo.create({ content: window.prompt("Todo content") });
-  }
+  };
+
+  function deleteToDo(toDoId: string) {
+    client.models.Todo.delete({ id: toDoId });
+  };
+
+  function updateToDo(toDoId: string, content: string|null) {
+    client.models.Todo.update({ id: toDoId, content: content });
+  };
+
+
 
   return (
     <main>
@@ -23,7 +33,10 @@ function App() {
       <button onClick={createTodo}>+ new</button>
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
+          <li key={todo.id}>{todo.content}
+            <button style={{ "backgroundColor": "red", "float": "right", "width": "20px", "fontSize": "10px", "padding": "2px" }} onClick={() => deleteToDo(todo.id)}>X</button>
+            <button style={{"backgroundColor": "blue", "float": "right", "width": "40px", "fontSize": "10px", "padding": "2px", "marginRight": "2px"}} onClick={()=>updateToDo(todo.id, window.prompt("Todo content"))}>edit</button>
+          </li>
         ))}
       </ul>
       <div>
